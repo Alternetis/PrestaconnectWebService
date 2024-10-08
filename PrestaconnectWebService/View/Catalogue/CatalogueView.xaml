@@ -1,0 +1,198 @@
+﻿<Window x:Class="PrestaconnectWebService.View.Catalogue.CatalogueView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Annexe="clr-namespace:PrestaconnectWebService.View.Annexes"
+        mc:Ignorable="d"
+        Width="1024" Height="768"
+	    MinWidth="1024" MinHeight="768"
+	    WindowStyle="ThreeDBorderWindow"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="True"
+        Background="{DynamicResource ResourceKey=WindowBackgroundBrush}"
+        Title="Catalogue">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Image Source="/Resources/Images/Catalog.png" VerticalAlignment="Top" HorizontalAlignment="Right" Height="40" Margin="2"></Image>
+        <TabControl Margin="0,20,0,0">
+            <TabItem Header="Catalogue" x:Name="TabItemCatalogue" FontSize="14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="{DynamicResource NormalBrush}" BorderThickness="1" Grid.ColumnSpan="2"/>
+
+                    <!--Left panel-->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <!--<Button Margin="10,7"  Content="Tout sélectionner / Déselectionner"  Name="AllCat" Click="AllCat_Click"></Button>-->
+
+                        <TreeView Name="TreeViewCatalogue" Grid.Row="1" Margin="4" SelectedItemChanged="Catalogs_SelectedItemChanged" >
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Childrens}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox x:Name="CatalogSync" IsEnabled="False" VerticalAlignment="Center" IsChecked="{Binding Path=cat_sync}" 
+                                               Checked="CheckBoxActif_Click" Unchecked="CheckBoxActif_Click" />
+                                        <TextBlock Text="{Binding cat_name}" MouseRightButtonUp="TextBlock_MouseRightButtonUp">
+                                            <TextBlock.Style>
+                                                <Style>
+                                                    <Setter Property="TextBlock.FontWeight" Value="Normal"/>
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding Path=cat_active}" Value="0"/>
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="TextBlock.FontStyle" Value="Italic"/>
+                                                            <Setter Property="TextBlock.Foreground" Value="Gray"/>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </Grid>
+
+                    <!--Right Panel-->
+                    <Grid Grid.Column="1" Margin="10" x:Name="InfoCatalog"  IsEnabled="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="0.9*"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                            <RowDefinition Height="0.7*"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Image" VerticalAlignment="Center"  HorizontalAlignment="Right"/>
+                        
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Margin="2,0,2,0" Height="40" >
+                            <Image Name="ThumbmailCategory" Margin="10,-10" Width="60"/>
+                            <Button Grid.Column="1" Content="Parcourir" VerticalAlignment="Center" HorizontalAlignment="Left"  HorizontalContentAlignment="Left" Padding="15,5" Click="ImageParcourir_Click"></Button>
+                        </StackPanel>
+
+                        <CheckBox Grid.Row="1" Grid.Column="1" Checked="CheckBoxActif_Click" Unchecked="CheckBoxActif_Click" 
+                                  Name="CheckBoxActif" Content="Actif" Margin="2" VerticalAlignment="Bottom"/>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <Label  Content="Langue" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                            <ComboBox HorizontalAlignment="Center" Width="140" Name="LangueComboBox" DisplayMemberPath="name" SelectionChanged="LangueComboBox_SelectionChanged"></ComboBox>
+                        </StackPanel>
+
+                        <Label Content="Nom sur Prestashop " VerticalAlignment="Center" Grid.Row="2" HorizontalAlignment="Right"/>
+                        <TextBox x:Name="PrestashopName" MaxLength="128" Margin="1" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" TextChanged="PrestashopName_TextChanged" />
+
+                        <Label Content="Description " VerticalAlignment="Center" Grid.Row="3" HorizontalAlignment="Right"/>
+                        <Annexe:HTMLContent x:Name="TinyMceDescription" Margin="1" Grid.Column="1" Grid.Row="3" Grid.RowSpan="4" />
+
+                        <Label Content="Balise Title " VerticalAlignment="Center" Grid.Row="7" HorizontalAlignment="Right" />
+                        <TextBox x:Name="PrestashopBaliseTitle" MaxLength="70" Margin="1" VerticalAlignment="Center" Grid.Column="1" Grid.Row="7" TextChanged="MetaTitle_TextChanged" />
+                        
+                        <Label Content="Meta Description " VerticalAlignment="Center" Grid.Row="8" HorizontalAlignment="Right"/>
+                        <TextBox x:Name="PrestashopMetaDescription" MaxLength="160" Margin="1" TextWrapping="Wrap" Grid.Column="1" Grid.Row="8" TextChanged="MetaDescription_TextChanged"/>
+
+                        <Label Content="Meta Mots clefs " VerticalAlignment="Center" Grid.Row="9" HorizontalAlignment="Right"/>
+                        <TextBox x:Name="PrestashopMetaMotClef" MaxLength="255" Margin="1"  VerticalAlignment="Center" Grid.Column="1" Grid.Row="9" TextChanged="PrestashopMetaMotClef_TextChanged" />
+
+                        <Label Content="Url simplifiée " VerticalAlignment="Center" Grid.Row="10" HorizontalAlignment="Right"/>
+                        <TextBox x:Name="PrestashopLinkRewrite" MaxLength="255" Margin="1"  VerticalAlignment="Center" Grid.Column="1" Grid.Row="10" TextChanged="PrestashopLinkRewrite_TextChanged"/>
+
+                        <Label Content="Lien Catalogue Sage " VerticalAlignment="Center" Grid.Row="11" HorizontalAlignment="Right"/>
+
+
+                        <Grid Grid.Row="11" Grid.Column="1" Margin="1">
+
+                            <StackPanel>
+                                <Button x:Name="btnShowTreeView" Content="Aucun" Click="btnShowTreeView_Click"/>
+  
+                                <Popup x:Name="popup" IsOpen="False" StaysOpen="False" Placement="Top" >
+                                    <ScrollViewer MaxHeight="200">
+                                        <TreeView x:Name="TreeViewComboBox" Width="Auto" SelectedItemChanged="TreeViewComboBox_SelectedItemChanged"
+                                                  VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizing="True">
+                                            <!-- Définissez le modèle d'élément -->
+                                            <TreeView.ItemTemplate >
+                                                <HierarchicalDataTemplate ItemsSource="{Binding Childrens}">
+                                                    <TextBlock Text="{Binding Intitule}"/>
+                                                </HierarchicalDataTemplate>
+                                            </TreeView.ItemTemplate>
+                                        </TreeView>
+                                    </ScrollViewer>
+                                </Popup>
+                            </StackPanel>
+                          
+                        </Grid>
+
+                        <WebBrowser x:Name="ViewWebBrowser" Grid.Row="12" Grid.ColumnSpan="2" Margin="2,4,0,0"/>
+                    </Grid>
+
+                    <TextBlock Grid.Row="0" Grid.RowSpan="1" Grid.ColumnSpan="1" Visibility="Hidden" Opacity="0.9" Background="Gray" TextAlignment="Center"  FontSize="20" FontWeight="Bold" 
+                               Margin="4" Padding="0,300"
+                               x:Name="TextAvertismentNoShop"><Run Text="Veuillez choisir un shop "/><LineBreak/><Run Text="spécifique pour pouvoir"/><LineBreak/><Run Text=" gérer les catalogues."></Run></TextBlock>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <!--Footer de la page-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="1.5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"> </RowDefinition>
+                <RowDefinition Height="0.4*"> </RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Button Margin="15,5" Content="Synchroniser" Cursor="Hand" FontSize="12"> </Button>
+            <Button x:Name="NewCatalogue" Grid.Column="1" Margin="15,5" Content="Nouveau" Cursor="Hand" FontSize="12" Click="NewCatalogue_Click"> </Button>
+            <Button Grid.Column="2" Margin="15,5" Content="Supprimer" Cursor="Hand" FontSize="12"> </Button>
+
+            <TextBlock Grid.Column="3" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-20,0,0">
+             Votre boutique
+            </TextBlock>
+            <ComboBox Grid.Column="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" SelectedIndex="0" Width="140" IsEnabled="true"
+    DisplayMemberPath="name" Name="ShopGroupSelected" SelectionChanged="ShopGroupSelected_SelectionChanged"/>
+            <ComboBox Grid.Column="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" SelectedIndex="0" Width="150" IsEnabled="true"
+             DisplayMemberPath="name" Name="ShopSelected" SelectionChanged="ShopSelected_SelectionChanged"/>
+
+            <Button Grid.Column="5"  Margin="15,5"  Cursor="Hand" FontSize="12" Name="ValidateCatalogModifaction" Click="ValidateCatalogModification_Click">
+                <Button.Content>
+                    <TextBlock>
+                        <Label Foreground="White"  Content="Valider les modificiations"></Label>
+                        <LineBreak/>
+                        <Label Foreground="White"  HorizontalContentAlignment="Center" Content="          du catalogue"></Label>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
+            
+            <CheckBox Content="Suppression PrestaShop" Grid.Row="1" Grid.Column="2"  Grid.ColumnSpan="1">
+                <!--faire le trigger-->
+            </CheckBox>
+            <RadioButton Content="Tous" Grid.Row="1" HorizontalAlignment="Left"/>
+            <RadioButton Content="Sélection" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
+
+        </Grid>
+    </Grid>
+</Window>

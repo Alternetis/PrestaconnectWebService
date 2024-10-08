@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="PrestaconnectWebService.View.Annexes.HTMLContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:zoople="clr-namespace:Zoople;assembly=HTMLEditor"
+            
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="500">
+    <Grid>
+        <TabControl Margin="4,4,4,4"  Grid.Row="1" TabStripPlacement="Left">
+            <TabItem Header="Editeur" Name="TabItemWYSIWYG" LostFocus="TabItemWYSIWYG_LostFocus" GotFocus="TabItemWYSIWYG_GotFocus" >
+                <!--<WebBrowser x:Name="EditeurHtml" Margin="0"></WebBrowser>-->
+                <WindowsFormsHost Name="wfhEditeur" Background="{x:Null}">
+                    <WindowsFormsHost.Child>
+                        <zoople:HTMLEditControl x:Name="EditeurHtml" Dock="Fill" LicenceKey="KPH1012-9856-1698" />
+                    </WindowsFormsHost.Child>
+                </WindowsFormsHost>
+            </TabItem>
+            <TabItem Header="HTML" Name="TabItemHTMLEdit" LostFocus="TabItemHTMLEdit_LostFocus" GotFocus="TabItemHTMLEdit_GotFocus" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="0"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBox Name="TextBoxInsertHTML" Grid.ColumnSpan="4" Grid.RowSpan="2"
+                             ToolTip="Intégration directe du html, faire un copier-coller" 
+                             TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" AutoWordSelection="True" />
+                    <!--<Button Content="Insérer dans l'éditeur" Height="23" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"
+                            Name="buttonInsertHTML" VerticalAlignment="Center" Width="145" 
+                            Click="buttonInsertHTML_Click" />
+                    <Button Content="Charger depuis l'éditeur" Height="23" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1"
+                            Name="buttonLoadHTML" VerticalAlignment="Center" Width="145"  
+                            Click="buttonLoadHTML_Click" />
+
+                    <Button Content="Charger depuis la BDD" Height="23" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="1"
+                            Name="buttonLoadDbHTML" VerticalAlignment="Center" Width="145" 
+                            Click="buttonLoadDbHTML_Click" />
+                    <Button Content="Insérer dans la BDD" Height="23" HorizontalAlignment="Center" Grid.Column="3" Grid.Row="1"
+                            Name="buttonInsertDbHTML" VerticalAlignment="Center" Width="145" 
+                            Click="buttonInsertDbHTML_Click" Visibility="Collapsed" />-->
+                </Grid>
+            </TabItem>
+            <TabItem Header="Vue navigateur" GotFocus="TabItem_GotFocus" >
+                <WebBrowser x:Name="ViewWebBrowser" />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

@@ -1,0 +1,82 @@
+﻿<Window x:Class="PrestaconnectWebService.View.Gamme.GammeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PrestaconnectWebService.View.Gamme"
+        mc:Ignorable="d"
+        Title="Gamme" 
+        Width="1024" Height="768"
+	    MinWidth="1024" MinHeight="768"
+	    WindowStyle="ThreeDBorderWindow"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="True"
+        Background="{DynamicResource ResourceKey=WindowBackgroundBrush}">
+
+    <Grid Margin="5">
+        <Image Source="/Resources/Images/combination.png" VerticalAlignment="Top" HorizontalAlignment="Right" Height="40" Margin="2"></Image>
+        <TabControl Margin="0,20,0,0">
+            <TabItem Header="Gamme" x:Name="TabItemGamme" FontSize="14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.6*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="{DynamicResource NormalBrush}" BorderThickness="1" Grid.ColumnSpan="4"/>
+
+                    <Label Content="Groupe d'attributs existants :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" />
+                    <ListBox Margin="10,40" Name="listBoxPsAttributeGroup" SelectionChanged="listBoxPsAttributeGroup_SelectionChanged" > </ListBox>
+
+
+                
+                    <GroupBox Grid.Column="1" Margin="0,40" Header="Liste des attributs">
+                        <ListBox  Grid.Column="1" Margin="0,10" Name="ListBoxPsAttribute" SelectionChanged="ListBoxPsAttribute_SelectionChanged"/>
+                    </GroupBox>
+
+                    <Grid Grid.Column="3" Margin="0,40">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.50*"></RowDefinition>
+                            <RowDefinition Height="0.15*"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                            <RowDefinition Height="0.15*"></RowDefinition>
+                            <RowDefinition Height="0.9*"></RowDefinition>
+                            <RowDefinition Height="0.15*"></RowDefinition>
+                            <RowDefinition Height="0.5*"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <GroupBox Header="Langue">
+                            <Grid Margin="10">
+                                <ComboBox VerticalAlignment="Center" VerticalContentAlignment="Center" Name="SelectionLangue" DisplayMemberPath="name" SelectionChanged="SelectionLangue_SelectionChanged"></ComboBox>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Grid.Row="2" Header="Créer un nouveau groupe d'attribut" IsEnabled="False">
+                            <Grid Margin="10">
+                                <Button Grid.Row="2" Content="Créer dans PrestaShop" Name="buttonCreatePsAttributeGroup" FontSize="16" VerticalAlignment="Center"></Button>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Ajout attribut" Grid.Row="4" Name="GroupBoxAttribut" IsEnabled="False">
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label FontSize="14" Content="Groupe d'attribut" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <Label FontSize="14" FontWeight="Bold" Name="LabelGroupAttribut" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+
+                                <Button FontSize="16"  Grid.Row="3" Content="Créer dans PrestaShop" Name="buttonCreatePsAttribute" VerticalAlignment="Center" Click="BtnCreatePsAttribute_Click"></Button>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Modifier Attribut" Grid.Row="6" Name="GroupBoxUpdateAttribut" IsEnabled="False">
+                            <Grid Margin="10">
+                                <Button Grid.Row="2" Content="Modifier dans PrestaShop" Name="buttonUpdatePsAttributeGroup" FontSize="16" VerticalAlignment="Center" Click="BtnUpdatePsAttributeGroup_Click"></Button>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </Grid>
+
+            </TabItem>
+            
+        </TabControl>
+    </Grid>
+</Window>

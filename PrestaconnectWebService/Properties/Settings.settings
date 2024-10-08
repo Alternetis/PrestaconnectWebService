@@ -1,0 +1,42 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PrestaconnectWebService.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PrestaconnectConnection" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;data source=ALTERNETIS;initial catalog=PRESTACONNECT;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">data source=ALTERNETIS;initial catalog=PRESTACONNECT;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework</Value>
+    </Setting>
+    <Setting Name="UrlPrestashop" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://127.0.0.1:8080/Prestashop</Value>
+    </Setting>
+    <Setting Name="PrestashopAccount" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">9KNJT6BNHARJS5FZA7D9X138Z1W1CATY</Value>
+    </Setting>
+    <Setting Name="GCMFILE" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Users\AliDhoifiri\Documents\Sage\BIJOU.gcm</Value>
+    </Setting>
+    <Setting Name="SAGEUSER" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">&lt;Administrateur&gt;</Value>
+    </Setting>
+    <Setting Name="SAGEPASSWORD" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">2006</Value>
+    </Setting>
+    <Setting Name="SAGEConnection" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;Data Source=(local);Initial Catalog=BIJOU;Integrated Security=True&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=(local);Initial Catalog=BIJOU;Integrated Security=True</Value>
+    </Setting>
+    <Setting Name="LicenceKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DHOIFIRIALTERNETIS86</Value>
+    </Setting>
+    <Setting Name="CLIENT" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Ali</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

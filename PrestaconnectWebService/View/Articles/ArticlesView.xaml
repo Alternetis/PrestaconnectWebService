@@ -1,0 +1,205 @@
+﻿<Window x:Class="PrestaconnectWebService.View.Articles.ArticlesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PrestaconnectWebService.View.Articles"
+        Title="Liste des Article" 
+        Width="1024" Height="768"
+	    MinWidth="1024" MinHeight="768"
+	    WindowStyle="ThreeDBorderWindow"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="True" 
+        Background="{DynamicResource ResourceKey=WindowBackgroundBrush}">
+    <Grid Margin="5">
+       
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"> </RowDefinition>
+            <RowDefinition Height="*"> </RowDefinition>
+            <RowDefinition Height="100"> </RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="2" Source="/Resources/Images/article.png" VerticalAlignment="Top" HorizontalAlignment="Right" Height="40" Margin="2"></Image>
+            
+            <Label Grid.Column="0" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-20,0,0" 
+                       Content="Votre boutique" FontWeight="Bold"/>
+            <ComboBox Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" SelectedIndex="0"  Margin="-155,0,0,0" Width="150" IsEnabled="true"
+                DisplayMemberPath="name" Name="ShopGroupSelected" SelectionChanged="ShopGroupSelected_SelectionChanged"/>
+            <ComboBox Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" SelectedIndex="0" Margin="155,0,0,0" Width="150" IsEnabled="true"
+                DisplayMemberPath="name" Name="ShopSelected" SelectionChanged="ShopSelected_SelectionChanged"/>
+        </Grid>
+       
+        <Border Grid.Row="2" Background="Yellow"></Border>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*"> </ColumnDefinition>
+                <ColumnDefinition Width="*"> </ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <!--<Border BorderBrush="{DynamicResource NormalBrush}" BorderThickness="1" Grid.ColumnSpan="2"/>-->
+
+            <!--Left panel-->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TreeView Name="TreeViewCatalogue" Grid.Row="1" Margin="4" SelectedItemChanged="Catalogue_SelectedItemChanged">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Childrens}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding cat_name}" MouseRightButtonUp="Catalogue_MouseRightButtonUp">
+                                    <TextBlock.Style>
+                                        <Style>
+                                            <Setter Property="TextBlock.FontSize" Value="14"></Setter>
+                                            <Setter Property="TextBlock.FontWeight" Value="Normal"/>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Path=cat_active}" Value="0"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="TextBlock.FontStyle" Value="Italic"/>
+                                                    <Setter Property="TextBlock.Foreground" Value="Gray"/>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </Grid>
+            <Grid Grid.Column="1" Margin="5">
+                <DataGrid x:Name="ArticlesGrid" IsReadOnly="True" ColumnHeaderHeight="25"
+                             CanUserAddRows="False"  CanUserDeleteRows="False" AutoGenerateColumns="False" 
+                             GridLinesVisibility="None" SelectionUnit="FullRow" CanUserReorderColumns="False" MinRowHeight="20"
+                             IsSynchronizedWithCurrentItem="True"  AlternatingRowBackground="{DynamicResource ResourceKey=GlyphBrush}" Background="Transparent">
+                    <DataGrid.Style>
+                        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=SelectedCatalogItems.Count}" Value="0">
+                                    <Setter Property="DataGrid.Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Style>
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <Grid Margin="4">
+                                <Image Width="45" Height="45" Source="{Binding SmallImageTempPath}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <Label Content="Référence Sage :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="48,4,0,0" />
+                                <TextBlock Text="{Binding sageArticleLight.AR_Ref, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="142,4,0,0" />
+                                <Label Content="Désignation Sage :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,4,0,0" />
+                                <TextBlock Text="{Binding sageArticleLight.AR_Design, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="364,4,0,0" />
+                                <Label Content="ID Prestashop :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="48,25,0,0"/>
+                                <TextBlock Text="{Binding Pre_Id}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="136,25,0,0" />
+                                <Label Content="Date de modification Prestashop :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,25,0,0" />
+                                <TextBlock Text="{Binding prestashopProduct.date_upd, ConverterCulture=fr, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="445,25,0,0" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Art_Id}" Width="Auto" />
+                        <DataGridTemplateColumn Width="35" CanUserResize="False" SortMemberPath="TypeArticleString">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Type" ToolTip="Type d'article" Padding="0 0 40 0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image MaxHeight="18" Source="{Binding ImageTypeArticle}" ToolTip="{Binding TypeArticleString}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Image" IsReadOnly="True" Width="45" MaxWidth="80" Visibility="Hidden">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding ArticleImage}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Nom" Binding="{Binding Art_Name}" Width="50*"/>
+                        <DataGridTextColumn Header="Référence" Binding="{Binding Art_Ref}" Width="30*" MinWidth="80" MaxWidth="140" />
+                        <DataGridTextColumn Header="Ean13" Binding="{Binding Art_Ean13}" Width="20*" MaxWidth="140"/>
+                        <DataGridTemplateColumn Header="Actif" Width="60" MaxWidth="60" CanUserResize="False">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Button Content="Actif" Width="50" Margin="0,-5" HorizontalContentAlignment="Center"
+                                        ToolTip="Visibilité du produit sur la boutique"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox Name="CheckArticleActive" HorizontalAlignment="Center" IsChecked="{Binding Path=Art_Active, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <CheckBox.Style>
+                                            <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}"/>
+                                        </CheckBox.Style>
+                                    </CheckBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="À Synchroniser" Width="100" MaxWidth="100" CanUserResize="False">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Button Content=" À Synchroniser " Width="90" Margin="0,-5" HorizontalContentAlignment="Center"
+                                    ToolTip="Transfert des données articles entre Sage et PrestaShop"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox Name="CheckArticleSync" HorizontalAlignment="Center" IsChecked="{Binding Path=Art_Sync, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=CanSync}">
+                                        <CheckBox.Style>
+                                            <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}"/>
+                                        </CheckBox.Style>
+                                    </CheckBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Maj tarifs" Width="70" MaxWidth="70" CanUserResize="False">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Button Content="Maj tarifs" Width="60" Margin="0,-5" HorizontalContentAlignment="Center"
+                                    ToolTip="Transfert des tarifs Sage vers PrestaShop"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox Name="CheckArticleSync" HorizontalAlignment="Center" IsChecked="{Binding Path=Art_SyncPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=CanSyncPrice}">
+                                        <CheckBox.Style>
+                                            <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}"/>
+                                        </CheckBox.Style>
+                                    </CheckBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Date de modification" Binding="{Binding Art_Date, ConverterCulture=fr, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="124" CanUserResize="False">
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StatusBar Grid.Column="1" Grid.Row="1" BorderBrush="#FF688CAF" BorderThickness="1" Margin="2,0,2,2" Height="24" VerticalAlignment="Bottom" >
+                    <TextBlock MinWidth="80" Margin="6,0,4,0" >
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="Articles : {0} ">
+                                <Binding ElementName="ArticlesGrid" Path="Items.Count" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <Separator />
+                    <TextBlock MinWidth="200" Margin="4,0,6,0" >
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="Catalogue courant :  {0} ">
+                                <Binding Path="SelectedCatalogue.cat_name" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                </StatusBar>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
